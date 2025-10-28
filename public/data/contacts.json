@@ -1,32 +1,69 @@
 [
     {
         "id": 101,
-        "name": "Ada Lovelace",
+        "name": "Bella Beast",
         "phone": "(555) 010-0101",
-        "email": "ada@example.com"
+        "email": "bella@puppybook.com"
     },
     {
         "id": 102,
-        "name": "Alan Turing",
-        "phone": "(555) 010-0102",
-        "email": "alan@example.com"
+        "name": "Buddy Bro",
+       "phone": "(555) 010-0102",
+        "email": "buddy@puppybook.com"
     },
     {
         "id": 103,
-        "name": "Grace Hopper",
+        "name": "Charlie Luck",
         "phone": "(555) 010-0103",
-        "email": "grace@example.com"
+        "email": "charlie@puppybook.com"
     },
+    
     {
-        "id": 104,
-        "name": "Katherine Johnson",
-        "phone": "(555) 010-0104",
-        "email": "katherine@example.com"
+        "id": 104, 
+        "name": "Luna Keys",
+        "phone": "555-456-7890",
+        "email": "luna@puppybook.com"
+
     },
     {
         "id": 105,
-        "name": "Donald Knuth",
-        "phone": "(555) 010-0105",
-        "email": "donald@example.com"
+        "name": "Max Goof",
+        "phone": "555-567-8901",
+        "email": "max@puppybook.com"
+
+    },
+
+    {
+        "id": 106,
+        "name": "Diana Thomas",
+        "phone": "555-678-9012",
+        "email": "diana@puppybook.com"
+
+    },
+    {
+        "id": 107, 
+        "name": "Cooper Lee",
+        "phone": "555-789-0123",
+        "email": "cooper@phonebook.com"
+    },
+    {
+        "id": 108,
+        "name": "Rocky Jones",
+        "phone": "555-901-2345",
+        "email": "rocky@puppybook.com"
+    },
+    {
+        "id": 109, 
+        "name": "Molly Sadie",
+        "phone": "555-017-3456",
+        "email": "molly@puppybook.com"
+
+    },
+    {
+        "id": 110,
+        "name": "Shaggy Doo",
+        "phone": "555-233-1777",
+        "email": "shaggy@puppybook.com"
+
     }
 ]
