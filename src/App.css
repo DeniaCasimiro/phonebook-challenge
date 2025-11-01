@@ -164,3 +164,50 @@ select:focus {
     padding: 1rem;
   }
 }
+
+/* section-3: second contact page layout*/
+
+/* clickable contact cards */
+.contact-card.clickable {
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.contact-card.clickable:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-accent);
+}
+
+/* detail page layout */
+.contact-detail {
+  background: var(--color-card);
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.detail-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.detail-photo {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--color-accent);
+}
+
+.detail-info {
+  text-align: left;
+  color: var(--color-text);
+  font-size: 1.1rem;
+}
+
+.detail-info p {
+  margin: 0.5rem 0;
+}

@@ -1,58 +1,211 @@
+/* section 2: simple colors: blue & gray & black*/
 :root {
-  /* Light theme colors */
-  --bg: #0f0f10;
-  --fg: #e7e7e9;
-  --muted: #9aa0a6;
-  --border: #2b2b2e;
-  --accent: #7c8cff;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    /* Dark theme colors for media query */
-    --bg: #ffffff;
-    --fg: #1d1d1f;
-    --muted: #6e6e73;
-    --border: #e5e5ea;
-    --accent: #3c5cff;
-  }
-}
-
-* {
-    box-sizing: border-box;
-}
-
-html,
-body,
-#root {
-    height: 100%;
+  --color-bg: #0f141a;
+  --color-card: #1b2836;
+  --color-border: #2c3e50;
+  --color-text: #e0e6ed;
+  --color-accent: #0077cc;
+  --color-accent-hover: #0099ff;
+  --color-muted: #8fa3b6;
+  --font-base: "Segoe UI", Roboto, Arial, sans-serif;
 }
 
 body {
-    margin: 0;
-    font-family:
-        system-ui,
-        -apple-system,
-        Segoe UI,
-        Roboto,
-        Ubuntu,
-        Cantarell,
-        Noto Sans,
-        Helvetica,
-        Arial,
-        "Apple Color Emoji",
-        "Segoe UI Emoji";
-    color: var(--fg);
-    background: var(--bg);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-base);
+  margin: 0;
+  line-height: 1.6;
 }
 
-a {
-    color: var(--accent);
+/* layout */
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1rem 4rem;
 }
 
-button,
+/* header */
+.page__header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.page__title {
+  font-size: 2.25rem;
+  color: var(--color-accent);
+  margin-bottom: 0.25rem;
+}
+
+.page__subtitle {
+  color: var(--color-muted);
+}
+
+/* buttons */
+.btn {
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn:hover {
+  background: var(--color-accent-hover);
+}
+
+.btn:focus {
+  outline: 3px solid var(--color-accent-hover);
+  outline-offset: 2px;
+}
+
+/* the input-sectioning */
 input,
 select {
-    font: inherit;
-    color: inherit;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  padding: 0.6rem 0.75rem;
+  background: var(--color-card);
+  color: var(--color-text);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--color-accent);
+  background: #15202b;
+  outline: none;
+}
+
+/* sections */
+.search,
+.contacts,
+.form {
+  background: var(--color-card);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* contact boxes */
+.contacts__list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.contact-card {
+  background: #16232f;
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.contact-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-accent);
+}
+
+.contact-photo {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--color-accent);
+}
+
+.contact-info p {
+  margin: 0.2rem 0;
+  color: var(--color-muted);
+}
+
+/* forming */
+.field label {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.form__actions {
+  margin-top: 1rem;
+}
+
+/* footer */
+.page__footer {
+  text-align: center;
+  margin-top: 3rem;
+  color: var(--color-muted);
+}
+
+/* interactions */
+button:focus,
+input:focus,
+select:focus {
+  outline: 2px solid var(--color-accent-hover);
+  outline-offset: 3px;
+}
+
+/* adjustments */
+@media (max-width: 720px) {
+  .contacts__list {
+    grid-template-columns: 1fr;
+  }
+  .page {
+    padding: 1rem;
+  }
+}
+
+/* section-3 */
+.contact-card.clickable {
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.contact-card.clickable:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-accent);
+}
+
+/* detail page layout */
+.contact-detail {
+  background: var(--color-card);
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.detail-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.detail-photo {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--color-accent);
+}
+
+.detail-info {
+  text-align: left;
+  color: var(--color-text);
+  font-size: 1.1rem;
+}
+
+.detail-info p {
+  margin: 0.5rem 0;
 }
