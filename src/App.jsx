@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -23,55 +23,69 @@ const FALLBACK_CONTACTS = [
   { id: 10, name: "Shaggy Doo", phone: "555-233-1777", email: "shaggy@puppybook.com", photo: "puppy-10.jpg" },
 ];
 
-/* contact home layout*/
-const ContactList = ({ contacts, setContacts }) => {
+/* resolving photo filenames and fixing image paths */
+function normalizePhotoField(photo) {
+  if (!photo) return null;
+  return photo.replace(/^(\.\/|\/)?images\//i, "");
+}
+
+function getPhotoUrl(photo) {
+  if (photo) return `/images/${photo}`;
+  return "/images/default-puppy.jpg";
+}
+
+/* contact home layout */
+const ContactList = ({ contacts, setContacts, loading, error }) => {
   const [query, setQuery] = useState("");
   const [form, setForm] = useState({ name: "", phone: "", email: "" });
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
   const filteredContacts = useMemo(() => {
     const lower = query.toLowerCase();
     return contacts.filter(
       (c) =>
-        c.name.toLowerCase().includes(lower) ||
-        c.phone.includes(lower)
+        (c.name || "").toLowerCase().includes(lower) ||
+        (c.phone || "").toLowerCase().includes(lower)
     );
   }, [contacts, query]);
 
+  function validateForm() {
+    const errs = {};
+    if (!form.name.trim() || form.name.trim().length < 2) errs.name = "ERROR";
+    if (!form.phone.trim()) errs.phone = "ERROR";
+    if (!form.email.trim() || !form.email.includes("@")) errs.email = "ERROR";
+    return errs;
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
-    if (!form.name.trim() || !form.phone.trim()) {
-      alert("Please fill in both Name and Phone fields.");
-      return;
-    }
-    const isDup = contacts.some(
-      (c) =>
-        c.name.toLowerCase() === form.name.toLowerCase() ||
-        c.phone === form.phone
-    );
-    if (isDup) {
-      alert("This contact already exists.");
-      return;
-    }
+    const errs = validateForm();
+    setErrors(errs);
+    if (Object.keys(errs).length > 0) return;
+
     const newContact = {
-      id: contacts.length ? contacts[contacts.length - 1].id + 1 : 1,
+      id: contacts.length ? Math.max(...contacts.map((c) => c.id)) + 1 : 1,
       name: form.name.trim(),
       phone: form.phone.trim(),
       email: form.email.trim(),
-      photo: "default-avatar.jpg",
+      photo: "default-puppy.jpg", // new contacts use default
     };
-    setContacts([...contacts, newContact]);
+
+    setContacts([newContact, ...contacts]);
     setForm({ name: "", phone: "", email: "" });
-    alert(`Added ${newContact.name}!`);
+    setErrors({});
   }
 
-/* top text*/
   return (
     <main className="page">
       <header className="page__header">
         <h1 className="page__title">Phonebook Challenge</h1>
         <p className="page__subtitle">Puppy Contact List</p>
       </header>
+
+      {loading && <p>Loading contacts...</p>}
+      {error && <p className="error">Error loading contacts. Using fallback list.</p>}
 
       <section className="search">
         <h2>Search Contacts</h2>
@@ -81,7 +95,10 @@ const ContactList = ({ contacts, setContacts }) => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        <p>Showing {filteredContacts.length} contact{filteredContacts.length !== 1 && "s"}</p>
+        <p>
+          Showing {filteredContacts.length} contact
+          {filteredContacts.length !== 1 && "s"}
+        </p>
       </section>
 
       <section className="contacts">
@@ -95,9 +112,14 @@ const ContactList = ({ contacts, setContacts }) => {
                 onClick={() => navigate(`/contact/${contact.id}`)}
               >
                 <img
-                  src={`/images/${contact.photo}`}
+                  src={getPhotoUrl(contact.photo)}
                   alt={contact.name}
                   className="contact-photo"
+                  onError={(e) => {
+                    // image backup if image fails to load
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = "/images/default-puppy.jpg";
+                  }}
                 />
                 <div className="contact-info">
                   <strong>{contact.name}</strong>
@@ -117,28 +139,31 @@ const ContactList = ({ contacts, setContacts }) => {
         <form onSubmit={handleSubmit}>
           <div className="field">
             <label>Name</label>
+            {errors.name && <p className="error-text">{errors.name}</p>}
             <input
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
-              required
             />
           </div>
           <div className="field">
             <label>Phone</label>
+            {errors.phone && <p className="error-text">{errors.phone}</p>}
             <input
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
-              required
             />
           </div>
           <div className="field">
             <label>Email</label>
+            {errors.email && <p className="error-text">{errors.email}</p>}
             <input
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
             />
           </div>
-          <button className="btn" type="submit">Add Contact</button>
+          <button className="btn" type="submit">
+            Add Contact
+          </button>
         </form>
       </section>
 
@@ -149,7 +174,7 @@ const ContactList = ({ contacts, setContacts }) => {
   );
 };
 
-/* next contact detail layout*/
+/* contact detail layout */
 const ContactDetail = ({ contacts }) => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -159,7 +184,9 @@ const ContactDetail = ({ contacts }) => {
     return (
       <main className="page">
         <p>Contact not found.</p>
-        <button className="btn" onClick={() => navigate("/")}>⬅ Back</button>
+        <button className="btn" onClick={() => navigate("/")}>
+          Back Page
+        </button>
       </main>
     );
   }
@@ -174,18 +201,26 @@ const ContactDetail = ({ contacts }) => {
       <section className="contact-detail">
         <div className="detail-container">
           <img
-            src={`/images/${contact.photo}`}
+            src={getPhotoUrl(contact.photo)}
             alt={contact.name}
             className="detail-photo"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = "/images/default-puppy.jpg";
+            }}
           />
           <div className="detail-info">
-            <p><strong>Phone:</strong> {contact.phone}</p>
-            <p><strong>Email:</strong> {contact.email}</p>
+            <p>
+              <strong>Phone:</strong> {contact.phone}
+            </p>
+            <p>
+              <strong>Email:</strong> {contact.email}
+            </p>
           </div>
         </div>
 
         <button className="btn" onClick={() => navigate("/")}>
-           Back to Contacts
+          Back to Contacts
         </button>
       </section>
 
@@ -196,19 +231,77 @@ const ContactDetail = ({ contacts }) => {
   );
 };
 
-
-/* added root app component*/
+/* root app */
 const App = () => {
-  const [contacts, setContacts] = useState(FALLBACK_CONTACTS);
+  const [contacts, setContacts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    fetch("/data/contacts.json")
+      .then((res) => {
+        if (!res.ok) throw new Error("Network error");
+        return res.json();
+      })
+      .then((data) => {
+        const updated = data.map((c, i) => {
+          const normalized = normalizePhotoField(c.photo);
+          let photoFilename = normalized;
+          if (!photoFilename) {
+            if (c.id && c.id <= 10) {
+              photoFilename = `puppy-${c.id}.jpg`;
+            } else {
+              photoFilename = "default-puppy.jpg";
+            }
+          } else {
+            if (
+              photoFilename.toLowerCase() === "default-puppy.jpg" &&
+              c.id &&
+              c.id <= 10
+            ) {
+              photoFilename = `puppy-${c.id}.jpg`;
+            }
+          }
+
+          const out = {
+            ...c,
+            photo: photoFilename,
+          };
+
+          console.debug("Contact photo set:", out.id, out.name, out.photo);
+
+          return out;
+        });
+
+        setContacts(updated);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to load /data/contacts.json:", err);
+        setError(true);
+        setContacts(FALLBACK_CONTACTS);
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<ContactList contacts={contacts} setContacts={setContacts} />} />
+        <Route
+          path="/"
+          element={
+            <ContactList
+              contacts={contacts}
+              setContacts={setContacts}
+              loading={loading}
+              error={error}
+            />
+          }
+        />
         <Route path="/contact/:id" element={<ContactDetail contacts={contacts} />} />
       </Routes>
     </Router>
   );
 };
 
-export default App;
+export default App; 

@@ -1,32 +1,72 @@
 [
-    {
-        "id": 101,
-        "name": "Ada Lovelace",
-        "phone": "(555) 010-0101",
-        "email": "ada@example.com"
-    },
-    {
-        "id": 102,
-        "name": "Alan Turing",
-        "phone": "(555) 010-0102",
-        "email": "alan@example.com"
-    },
-    {
-        "id": 103,
-        "name": "Grace Hopper",
-        "phone": "(555) 010-0103",
-        "email": "grace@example.com"
-    },
-    {
-        "id": 104,
-        "name": "Katherine Johnson",
-        "phone": "(555) 010-0104",
-        "email": "katherine@example.com"
-    },
-    {
-        "id": 105,
-        "name": "Donald Knuth",
-        "phone": "(555) 010-0105",
-        "email": "donald@example.com"
-    }
+  {
+    "id": 1,
+    "name": "Bella Beast",
+    "phone": "(555) 010-0101",
+    "email": "bella@puppybook.com",
+    "photo": "puppy-1.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Buddy Bro",
+    "phone": "(555) 010-0102",
+    "email": "buddy@puppybook.com",
+    "photo": "puppy-2.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Charlie Luck",
+    "phone": "(555) 010-0103",
+    "email": "charlie@puppybook.com",
+    "photo": "puppy-3.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Luna Keys",
+    "phone": "555-456-7890",
+    "email": "luna@puppybook.com",
+    "photo": "puppy-4.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Max Goof",
+    "phone": "555-567-8901",
+    "email": "max@puppybook.com",
+    "photo": "puppy-5.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Diana Thomas",
+    "phone": "555-678-9012",
+    "email": "diana@puppybook.com",
+    "photo": "puppy-6.jpg"
+  },
+  {
+    "id": 7,
+    "name": "Cooper Lee",
+    "phone": "555-789-0123",
+    "email": "cooper@phonebook.com",
+    "photo": "puppy-7.jpg"
+  },
+  {
+    "id": 8,
+    "name": "Rocky Jones",
+    "phone": "555-901-2345",
+    "email": "rocky@puppybook.com",
+    "photo": "puppy-8.jpg"
+  },
+  {
+    "id": 9,
+    "name": "Molly Sadie",
+    "phone": "555-017-3456",
+    "email": "molly@puppybook.com",
+    "photo": "puppy-9.jpg"
+  },
+  {
+    "id": 10,
+    "name": "Shaggy Doo",
+    "phone": "555-233-1777",
+    "email": "shaggy@puppybook.com",
+    "photo": "puppy-10.jpg"
+  }
 ]

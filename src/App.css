@@ -7,6 +7,7 @@
   --color-accent: #0077cc;
   --color-accent-hover: #0099ff;
   --color-muted: #8fa3b6;
+  --color-error: #e74c3c;
   --font-base: "Segoe UI", Roboto, Arial, sans-serif;
 }
 
@@ -211,3 +212,12 @@ select:focus {
 .detail-info p {
   margin: 0.5rem 0;
 }
+
+/* section-4: loading and error texts*/
+.error-text {
+  color: red;
+  margin: 2px 0 6px 0;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
